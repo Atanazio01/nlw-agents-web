@@ -1,20 +1,25 @@
-import { Bot, Loader2, MessageSquare } from 'lucide-react'
+import { Bot, Loader2, MessageSquare, ThumbsUp } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { dayjs } from '@/lib/dayjs'
+import { cn } from '@/lib/utils'
 
 interface Question {
   id: string
   question: string
   answer?: string | null
   createdAt: string
+  likesCount: number
+  likedByMe: boolean
   isGeneratingAnswer?: boolean
 }
 
 interface QuestionItemProps {
   question: Question
+  onToggleLike: (liked: boolean) => void
 }
 
-export function QuestionItem({ question }: QuestionItemProps) {
+export function QuestionItem({ question, onToggleLike }: QuestionItemProps) {
   const { isGeneratingAnswer } = question
   const hasAnswerSection = isGeneratingAnswer || !!question.answer
 
@@ -66,7 +71,20 @@ export function QuestionItem({ question }: QuestionItemProps) {
             </div>
           )}
 
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between">
+            <Button
+              aria-pressed={question.likedByMe}
+              className={cn(question.likedByMe && 'text-primary')}
+              disabled={isGeneratingAnswer}
+              onClick={() => onToggleLike(!question.likedByMe)}
+              size="sm"
+              variant="ghost"
+            >
+              <ThumbsUp
+                className={cn('size-4', question.likedByMe && 'fill-current')}
+              />
+              {question.likesCount}
+            </Button>
             <span className="text-muted-foreground text-xs">
               {dayjs(question.createdAt).fromNow()}
             </span>

@@ -40,6 +40,8 @@ export function useCreateQuestion(roomId: string) {
         question,
         answer: null,
         createdAt: new Date().toISOString(),
+        likesCount: 0,
+        likedByMe: false,
         isGeneratingAnswer: true,
       };
 

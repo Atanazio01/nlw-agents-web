@@ -3,5 +3,7 @@ export type GetRoomQuestionsResponse = Array<{
   question: string;
   answer: string | null;
   createdAt: string;
+  likesCount: number;
+  likedByMe: boolean;
   isGeneratingAnswer?: boolean;
 }>;
